@@ -2,7 +2,6 @@ package frc.robot.commands.tank;
 
 import edu.wpi.first.wpilibj.Filesystem;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.Constants;
 import frc.robot.subsystems.tank.TankSubsystem;
 import edu.wpi.first.wpilibj.Timer;
@@ -16,13 +15,10 @@ import java.io.IOException;
 import java.util.LinkedList;
 import java.util.Queue;
 
-
-//encoder talonSRX.getSensorCollection().getQuadraturePosition();
-
 public class movement extends CommandBase {
     private final TankSubsystem tankSubsystem;
     private Timer waiting = new Timer();
-    public movement(TankSubsystem tankSubsystem) { // TODO add parameters
+    public movement(TankSubsystem tankSubsystem) {
         this.tankSubsystem = tankSubsystem;
 
         addRequirements(tankSubsystem);
@@ -89,14 +85,14 @@ public class movement extends CommandBase {
         double drivingTime = Double.parseDouble(duration.substring(0,duration.length()-1)); //in seconds
         if (direction == "forward")
         {
-            tankSubsystem.setDrivePowers(driveSpeed,0);
+            tankSubsystem.setDrivePowers(driveSpeed,0); // + for forward
         }
         else if (direction == "backward")
         {
-            tankSubsystem.setDrivePowers(-1*driveSpeed,0);
+            tankSubsystem.setDrivePowers(-1*driveSpeed,0); // - for backward
 
         }
-        waiting.delay(drivingTime); //replace with better suited function
+        waiting.delay(drivingTime);
         tankSubsystem.stopDrive();
     }
 
@@ -109,7 +105,7 @@ public class movement extends CommandBase {
             desiredDistance*=-1;
         }
         tankSubsystem.setDrivePowers(Math.signum(desiredDistance)*driveSpeed,0);
-        while(Math.abs(tankSubsystem.getLeftEncoderPosition() - startPos) * Constants.INCHES_PER_METER < desiredDistance) // will overshoot distance
+        while(Math.abs(tankSubsystem.getLeftEncoderPosition() - startPos) * Constants.INCHES_PER_METER < desiredDistance) // check if past desired distance
         {
         }
         tankSubsystem.stopDrive();
@@ -117,7 +113,7 @@ public class movement extends CommandBase {
 
     public void turn(String direction, double angle, double turnSpeed) // turns in given direction a certain amount of degrees
     {
-        double startingAngle = tankSubsystem.getHeading(); //get initail heading
+        double startingAngle = tankSubsystem.getHeading(); //get initial heading
         if (direction == "left")
         {
             tankSubsystem.setDrivePowers(0, -1*turnSpeed); // - for counter-clockwise
@@ -126,7 +122,7 @@ public class movement extends CommandBase {
         {
             tankSubsystem.setDrivePowers(0,turnSpeed);// + for clockwise
         }
-        while(Math.abs(tankSubsystem.getHeading() - startingAngle) < angle){
+        while(Math.abs(tankSubsystem.getHeading() - startingAngle) < angle){ // check whether > than desired angle
         }
         tankSubsystem.stopDrive();
     }

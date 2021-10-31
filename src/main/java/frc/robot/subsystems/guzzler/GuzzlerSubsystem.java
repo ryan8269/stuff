@@ -37,7 +37,7 @@ public class GuzzlerSubsystem extends SubsystemBase{
         // This method will be called once per scheduler run during simulation
     }
 
-    public void toggleIntake(){
+    public void toggleIntake(){ // toggles the intake
         intakeRunning = !intakeRunning;
         if (intakeRunning)
         {
@@ -46,7 +46,7 @@ public class GuzzlerSubsystem extends SubsystemBase{
         }
     }
 
-    public void reverseIntake(){
+    public void reverseIntake(){ // reverses intake direction
         if (intakeRunning)
         {
             //rightIntake.setMotorPower(-1*intakeSpeed);
@@ -60,12 +60,12 @@ public class GuzzlerSubsystem extends SubsystemBase{
         )
         {
             storageCount++;
-            awaitingItem = false;
+            awaitingItem = false; // object currently triggering sensor
         }
         if (!awaitingItem // && sensor does not detect an object
         )
         {
-            awaitingItem = true;
+            awaitingItem = true; // space between objects
         }
     }
 
