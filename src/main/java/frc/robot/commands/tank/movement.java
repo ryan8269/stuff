@@ -14,7 +14,6 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.LinkedList;
 import java.util.Queue;
-
 public class movement extends CommandBase {
     private final TankSubsystem tankSubsystem;
     private Timer waiting = new Timer();
@@ -94,7 +93,7 @@ public class movement extends CommandBase {
         }
         waiting.delay(drivingTime);
         tankSubsystem.stopDrive();
-    }
+    } 
 
     public void distanceDrive(String direction, String distance, double driveSpeed)
     {
